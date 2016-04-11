@@ -5,6 +5,8 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 
 require 'vendor/autoload.php';
+require 'post.php';
+
 
 // Register Classes
 spl_autoload_register(function ($classname) {
@@ -44,15 +46,29 @@ $container['db'] = function($c){
 };
 
 
-
-$app->get('/tickets', function (Request $request, Response $response) {
-    // $name = $request->getAttribute('name');
-    // $response->getBody()->write("Hello, $name");
-    $this->logger->addInfo("Ticket list");
+$app->get('/destination/{id}', function (Request $request, Response $response, $args) {
+    
+    //$name = $request->getAttribute('name');
+    //$response->getBody()->write("Hello, $name");
+    $ticket_id = (int)$args['id'];
+    //$this->logger->addInfo("Ticket list");
     $mapper = new TicketMapper($this->db);
-    $tickets = $mapper->getTickets();
+    $ticket = $mapper->getTicketById($ticket_id);
 
-    $response->getBody()->write(var_export($tickets, true));
+    $response->getBody()->write(var_export($ticket, true));
     return $response;
 });
+
+$app->get('/destinations/', function(Request $request, Response $response){
+    $mapper = new DestinationMapper($this->db);
+    $destinations = $mapper->getDestinations();
+    $json_response = $response->withJson($destinations);
+    $response->getBody()->write($json_response);
+    return $response;
+});
+
+$app->post('/destination/new', $post);
+
+
+
 $app->run();
