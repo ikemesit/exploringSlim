@@ -27,7 +27,7 @@
 </head>
 <body>
 	<div>
-		<form action="/destination/new" method="POST" accept-charset="utf-8">	
+		<form action="/admin/destination/new/" method="POST" accept-charset="utf-8">	
 			<!-- <input type="number" name="id" placeholder="id"> -->
 			<ul>
 

@@ -2,8 +2,7 @@
 class DestinationMapper extends Mapper
 {
     public function getDestinations() {
-        $sql = "SELECT *
-            from destinations";
+        $sql = "SELECT * from destinations";
         $stmt = $this->db->query($sql);
         $results = [];
         while($row = $stmt->fetch()) {

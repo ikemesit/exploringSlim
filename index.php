@@ -5,7 +5,7 @@ use \Psr\Http\Message\ResponseInterface as Response;
 
 
 require 'vendor/autoload.php';
-require 'post.php';
+require 'functions/callables.php';
 
 
 // Register Classes
@@ -46,6 +46,7 @@ $container['db'] = function($c){
 };
 
 
+// Destination Routes
 $app->get('/destination/{id}', function (Request $request, Response $response, $args) {
     
     //$name = $request->getAttribute('name');
@@ -59,7 +60,7 @@ $app->get('/destination/{id}', function (Request $request, Response $response, $
     return $response;
 });
 
-$app->get('/destinations/', function(Request $request, Response $response){
+$app->get('/', function(Request $request, Response $response){
     $mapper = new DestinationMapper($this->db);
     $destinations = $mapper->getDestinations();
     $json_response = $response->withJson($destinations);
@@ -67,7 +68,22 @@ $app->get('/destinations/', function(Request $request, Response $response){
     return $response;
 });
 
-$app->post('/destination/new', $post);
+
+
+
+// Admin Routes
+
+// $app->group('/admin/', function(){
+//     $this->get('/login', function(Request$request, Response $response){
+//         $response->getBody()->write("Admin");
+//         return $response;
+//     })->setName('admin');
+// });
+
+
+$app->post('/admin/destination/new/', $insertDestination);
+
+//$app->post('/destination/new', $post);
 
 
 
