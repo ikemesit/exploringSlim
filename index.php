@@ -73,12 +73,25 @@ $app->get('/', function(Request $request, Response $response){
 
 // Admin Routes
 
-// $app->group('/admin/', function(){
-//     $this->get('/login', function(Request$request, Response $response){
-//         $response->getBody()->write("Admin");
-//         return $response;
-//     })->setName('admin');
-// });
+$app->group('/admin', function(){
+    // Login
+    $this->post('/login', function(Request $request, Response $response){
+        $data = $request->getParsedBody();
+        $username = $data['username'];
+        $password = $data['password'];
+
+        if(!empty($username) && !empty($password))
+        {
+            $response->getBody()->write($username . "  + " . $password);
+            return $response;
+        }
+        else
+        {
+            $response->getBody()->write("Failed");
+            return $response;
+        }
+    });
+});
 
 
 $app->post('/admin/destination/new/', $insertDestination);
